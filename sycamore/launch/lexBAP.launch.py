@@ -127,6 +127,10 @@ def generate_launch_description():
     launch_description = [Node(package='rviz2', node_executable='rviz2', output='screen',
                                arguments=['-d', rviz_config_file])]
 
+    robot_launch.append(Node(
+        package='sycamore', node_executable='choirbot_lexBAP_analysis', output='screen',
+        parameters=[{'N': N}]))
+
     # add task table executable
     robot_launch.append(Node(
         package='sycamore', node_executable='choirbot_lexBAP_table', output='screen',
