@@ -22,7 +22,7 @@ class Planner(Node):
             self.current_pose, self.pose_callback,
             callback_group=ReentrantCallbackGroup())
 
-        self.get_logger().info('Planner {} started'.format(self.agent_id))        
+        self.get_logger().info('Planner of Agent {} started'.format(self.agent_id))
 
     def pose_callback(self):
         pass
@@ -61,7 +61,7 @@ class PointToPointPlanner(Planner):
         # read goal point
         action_goal = goal_handle.request
         self.goal_point = np.array(action_goal.goal_position)
-        self.get_logger().info('Moving robot to position {}'.format(self.goal_point))
+        self.get_logger().info('Moving robot {} to goal position {}'.format(self.agent_id, self.goal_point))
 
         # send message to controller
         self.send_to_controller()

@@ -3,6 +3,9 @@ from choirbot_interfaces.msg import PositionTask, PositionTaskArray
 from choirbot_interfaces.srv import PositionTaskService, TaskCompletionService
 from std_msgs.msg import Empty
 import numpy as np
+import gazebo_msgs.msg
+import geometry_msgs.msg
+
 
 np.random.seed(4)
 
@@ -44,6 +47,7 @@ class TaskTable(Node):
         task_seq_num = request.task_seq_num
 
         self.get_logger().info('Agent {} has completed task {}'.format(agent, task_seq_num))
+        self.get_logger().info('***** Here is our bipartite graph {} **********'.format(self.bipartite_graph))
 
         # get task
         index = next(k for k, t in enumerate(self.task_list) if t.seq_num == task_seq_num)

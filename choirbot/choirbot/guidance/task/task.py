@@ -44,7 +44,7 @@ class TaskGuidance(OptimizationGuidance):
         self.task_list_client.wait_for_service()
         self.task_completion_client.wait_for_service()
 
-        self.get_logger().info('Guidance {} started'.format(self.agent_id))
+        self.get_logger().info('Guidance for Agent {} started'. format(self.agent_id))
     
     def start_optimization(self, _):
         self.get_logger().info('Optimization triggered: requesting task list')

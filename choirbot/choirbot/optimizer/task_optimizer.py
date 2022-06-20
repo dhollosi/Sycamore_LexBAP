@@ -1,5 +1,5 @@
 import numpy as np
-from disropt.algorithms import DistributedSimplex
+from disropt.algorithms import DistributedSimplex, ConstraintsConsensus, DualDistributedSimplex
 from disropt.functions import Variable
 from disropt.problems import LinearProblem
 from disropt.agents import Agent
@@ -40,7 +40,7 @@ class TaskOptimizer(Optimizer):
         self.max_iterations = max_iterations
     
     def create_problem(self, task_list):
-        # prepare problem data (TODO spostare calcolo di task_positions in classe funzione di costo)
+        # prepare problem data (TODO post calculation of task_positions in cost function class)
         self.task_list = task_list
         self.n_tasks = self.guidance.n_agents
         task_positions = np.array([np.array(t.coordinates) for t in task_list.tasks])
