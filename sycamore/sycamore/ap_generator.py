@@ -29,8 +29,8 @@ upper_bound = 3
  #################################################################'''
 
 
-safety_distance = 0.1  # TODO: Include in future safe sets analysis (currently hardcoded)
-use_data = False # Set to False if above dimensions are being changed. Set to True if you wish to re-use previous problem data
+safety_distance = 0.1  # TODO: Include in future safe sets analysis (currently hardcoded in LexBAP_to_ChoiRbot class)
+use_data = True # Set to False if above dimensions are being changed. Set to True if you wish to re-use previous problem data
 store_data = True # Store data in same directory as this module, for fast evaluation
 store_data_ros = True # store the data in the ros package share directory to be used for ChoiRbot. Removes previous problem
 
