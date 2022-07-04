@@ -9,3 +9,9 @@ Instructions :
 2) in parent directory, source the ROS2 directory, and run the command colcon build
 3) run the command source install/setup.bash
 4) run the desired launch file : ros2 launch sycamore lexBAP.launch.py/linSAP.launch.py
+
+There should be an example provided. 
+
+Please note that the latest commit of ChoiRbot includes quadrotors, which require additional terms for the pose. This was overidden in order to work with the current implementation of the afore-mentioned code.
+
+Please do not hesitate to contact me for any further information!
