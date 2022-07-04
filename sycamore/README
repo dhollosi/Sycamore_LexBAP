@@ -1,0 +1,4 @@
+In this package lie the main additional contributions to the existing ChoiRbot package. 
+
+For both assignments types (LexBAP and LSAP), the matchings are sorted in ascending order and saved in .pk files in order to generate a correct agent ID for the ROS2 launch files.
+Please note that currently, the agent-task matchings are "foced" by using previously saved files in the "task_sycamore" modules
