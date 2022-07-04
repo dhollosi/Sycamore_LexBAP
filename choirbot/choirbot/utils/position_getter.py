@@ -31,8 +31,8 @@ def odom_callback(msg, dest_pose: 'Pose', callback: Callable):
 
     dest_pose.position = np.array([point.x, point.y, point.z])
     dest_pose.orientation = np.array([quat.x, quat.y, quat.z, quat.w])
-    dest_pose.velocity = np.array([linear.x, linear.y, linear.z])
-    dest_pose.angular = np.array([angular.x, angular.y, angular.z])
+    # dest_pose.velocity = np.array([linear.x, linear.y, linear.z])
+    # dest_pose.angular = np.array([angular.x, angular.y, angular.z])
 
     if callback is not None:
         callback()

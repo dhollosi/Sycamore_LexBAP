@@ -106,13 +106,13 @@ if __name__ == "__main__":
 
 		if use_lexbap is True:
 			#comment out next two lines if first time generating
-			os.remove(os.path.join(ros2_share_dir, reassigned_agent_data_lex))
-			os.remove(os.path.join(ros2_share_dir, reassigned_task_data_lex))
+			# os.remove(os.path.join(ros2_share_dir, reassigned_agent_data_lex))
+			# os.remove(os.path.join(ros2_share_dir, reassigned_task_data_lex))
 			LexBAP.store_data_lex(store_dir = ros2_share_dir)
 			LexBAP.store_data_cb(store_dir = ros2_share_dir)
 
-			os.remove(os.path.join(ros2_share_dir, reassigned_agent_data_lsap))
-			os.remove(os.path.join(ros2_share_dir, reassigned_task_data_lsap))
+			# os.remove(os.path.join(ros2_share_dir, reassigned_agent_data_lsap))
+			# os.remove(os.path.join(ros2_share_dir, reassigned_task_data_lsap))
 			LSAP.store_data_lex(store_dir=ros2_share_dir)
 			LSAP.store_data_cb(store_dir=ros2_share_dir)
 
