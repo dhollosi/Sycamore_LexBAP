@@ -9,7 +9,7 @@ import sys
 import argparse
 import os
 from sycamore.AssignmentProblem import AssignmentProblem
-from sycamore.LexicoBAP import LexicoBAP
+from sycamore.LSAP import LSAP
 import pickle
 
 '''###############################################################
@@ -26,22 +26,23 @@ RobustSetup = True
 lower_bound = -3
 upper_bound = 3
 
-true_heading = True
-LexBAP_analysis = True # set to True to perform LexBAP robustness analysis. Creates LexBAP_Analyser node which outputs graphs
+
 
 '''###############################################################
 ############### SET INITIAL PARAMETERS ABOVE #####################
  #################################################################'''
 
-use_LSAP = False
-use_lexBAP = True
+true_heading = True
+LinSAP_analysis = True #
+
+use_LSAP = True
+use_lexBAP = False
 
 __location__ = os.path.realpath(
                 os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-reassigned_agent_data = 'reassigned_agent_lex_format.pk'
-reassigned_task_data = 'reassigned_tasks_lex_format.pk'
-
+reassigned_agent_data = 'reassigned_agent_lex_format_lsap.pk'
+reassigned_task_data = 'reassigned_tasks_lex_format_lsap.pk'
 
 def generate_launch_description():
     ap = argparse.ArgumentParser(prog='ros2 launch sycamore lexBAP.launch.py')
@@ -58,26 +59,21 @@ def generate_launch_description():
     Problem = AssignmentProblem(agent_dim, task_dim, rob_margin, lower_bound=lower_bound,
                                 upper_bound=upper_bound, isRobust=RobustSetup)
 
-
     with open(os.path.join(__location__,reassigned_agent_data), 'rb') as fi:
         Problem.agent_pos_lex = pickle.load(fi)
     with open(os.path.join(__location__,reassigned_task_data), 'rb') as fi:
         Problem.task_pos_lex = pickle.load(fi)
     Problem.make_choirbot_compatible()
 
+    LinSAP = LSAP(Problem)
+    LinSAP.hungarian_solver()
 
-    LexBAP = LexicoBAP(Problem)
-    LexBAP.optimise()
+    LinSAP.plot_solution()
 
-    print('\n \n Optimal Task Assignment is: \n', LexBAP.optimal_ass, '\n \n muk is: \n', LexBAP.mu_k)
+    LinSAP.order_assignment()
 
-    LexBAP.plot_solution()
-
-    LexBAP.order_assignment()
-
-    T_new = LexBAP.task_pos_ordered_cb
-    P_new = LexBAP.agent_pos_ordered_cb
-
+    T_new = LinSAP.task_pos_ordered_cb
+    P_new = LinSAP.agent_pos_ordered_cb
 
     # initialize launch description
     robot_launch = []  # launched after 10 sec (to let Gazebo open)
@@ -88,13 +84,14 @@ def generate_launch_description():
     launch_description = [Node(package='rviz2', node_executable='rviz2', output='screen',
                                arguments=['-d', rviz_config_file])]
 
-    if LexBAP_analysis is True:
+    if LinSAP_analysis == True:
         robot_launch.append(Node(
-            package='sycamore', node_executable='sycamore_lexBAP_analysis', output='screen',
+            package='sycamore', node_executable='sycamore_linSAP_analysis', output='screen',
             parameters=[{'N': N}]))
 
+    # add task table executable
     robot_launch.append(Node(
-        package='sycamore', node_executable='sycamore_lexBAP_table', output='screen',
+        package='sycamore', node_executable='sycamore_linSAP_table', output='screen',
         prefix=['xterm -hold -e'],
         parameters=[{'N': N, 'use_lexBAP': use_lexBAP, 'use_LSAP': use_LSAP}]))
 
@@ -107,7 +104,7 @@ def generate_launch_description():
 
         # guidance
         robot_launch.append(Node(
-            package='sycamore', node_executable='sycamore_lexBAP_guidance', output='screen',
+            package='sycamore', node_executable='sycamore_linSAP_guidance', output='screen',
             prefix=['xterm -hold -e'],
             node_namespace='agent_{}'.format(i),
             parameters=[{'agent_id': i, 'N': N, 'in_neigh': in_neighbors,
@@ -115,14 +112,14 @@ def generate_launch_description():
 
         # planner
         robot_launch.append(Node(
-            package='sycamore', node_executable='sycamore_lexBAP_planner', output='screen',
+            package='sycamore', node_executable='sycamore_linSAP_planner', output='screen',
             node_namespace='agent_{}'.format(i),
             # parameters=[{'agent_id': i}]))
             parameters=[{'agent_id': i, 'task_position': task_positions}]))
 
         # controller
         robot_launch.append(Node(
-            package='sycamore', node_executable='sycamore_lexBAP_controller', output='screen',
+            package='sycamore', node_executable='sycamore_linSAP_controller', output='screen',
             node_namespace='agent_{}'.format(i),
             parameters=[{'agent_id': i}]))
 
@@ -130,15 +127,15 @@ def generate_launch_description():
         launch_description.append(Node(
             package='sycamore', node_executable='sycamore_turtlebot_spawner', output='screen',
             parameters=[{'namespace': 'agent_{}'.format(i), 'position': position,
-                         'task_position': task_positions, 'true_heading': true_heading,}]))
+                         'task_position': task_positions, 'true_heading': true_heading}]))
 
         launch_description.append(Node(
-            package='sycamore', node_executable='sycamore_lexBAP_rviz', output='screen',
+            package='sycamore', node_executable='sycamore_linSAP_rviz', output='screen',
             node_namespace='agent_{}'.format(i),
             parameters=[{'agent_id': i}]))
 
         launch_description.append(Node(
-            package='sycamore', node_executable='sycamore_lexBAP_rviz_task', output='screen',
+            package='sycamore', node_executable='sycamore_linSAP_rviz_task', output='screen',
             node_namespace='agent_{}'.format(i),
             parameters=[{'agent_id': i}]))
 

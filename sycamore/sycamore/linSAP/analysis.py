@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from choirbot import Pose
-from sycamore.LexBAP_to_ChoiRbot import ChoirBotLexicoBAP
+from sycamore.LSAP_to_ChoiRbot import ChoiRbotLSAP
 from rclpy.qos import QoSProfile
 from visualization_msgs.msg import Marker
 import os
@@ -14,7 +14,7 @@ class Analyser(Node):
 
     def __init__(self, visualization_topic: str = '/visualization_marker', update_frequency: int= 1,
             pose_handler: str ='pubsub', pose_topic: str=None):
-        super().__init__('LexBAP_Analyser', allow_undeclared_parameters=True,
+        super().__init__('Analyser', allow_undeclared_parameters=True,
             automatically_declare_parameters_from_overrides=True)
 
         self.agent_dim = self.get_parameter('N').value
@@ -24,16 +24,18 @@ class Analyser(Node):
         self.counter = 100000
         self.counter_robust = 0
 
-        reassigned_task_data = 'reassigned_tasks_lex_format.pk'
+        reassigned_task_data = 'reassigned_tasks_lex_format_lsap.pk'
         task_table_dir = get_package_share_directory('sycamore')
         task_table_file = os.path.join(task_table_dir, reassigned_task_data)
 
         with open(task_table_file, 'rb') as fi:
-            assigned_tasks_lexy = pickle.load(fi)
+            assigned_tasks_lsap = pickle.load(fi)
 
-        self.Lexy = ChoirBotLexicoBAP(assigned_tasks_lexy, agent_dim=self.agent_dim)
+        # self.get_logger().info('\n\n **** DEBUG **** tasks is \n {}'.format(assigned_tasks_lsap))
 
-        self.Lexy.task_pos = assigned_tasks_lexy
+        self.LSAP = ChoiRbotLSAP(assigned_tasks_lsap, agent_dim=self.agent_dim)
+
+        self.LSAP.task_pos = assigned_tasks_lsap
 
         self.current_agent_id = None
 
@@ -55,36 +57,24 @@ class Analyser(Node):
         if len(self.last_all_agents_pose_dict) == self.agent_dim: #wait until odometry from all agents has been received
             self.get_logger().info('\n\n **** DEBUG **** Counter is \n {}'.format(self.counter))
 
-            self.Lexy.get_agent_pos_from_dict(self.last_all_agents_pose_dict)
+            self.LSAP.get_agent_pos_from_dict(self.last_all_agents_pose_dict)
 
-            self.Lexy.optimise()
-            x_match, y_match = self.Lexy.get_agent_to_task_match()
+            self.LSAP.generate_cost()
 
-            if self.counter_robust == 0:
-                self.Lexy.init_cost = self.Lexy.cost
-                self.Lexy.init_agent_pos = self.Lexy.agent_pos
-                self.Lexy.init_task_pos = self.Lexy.task_pos
+            x_match, y_match = self.LSAP.get_agent_to_task_match()
 
             # Update variables for plots
-            self.Lexy.mu_k_array.append(self.Lexy.mu_k)
-            self.Lexy.get_ak()
-            self.Lexy.x_agent_array.append(x_match[0])
-            self.Lexy.y_agent_array.append(y_match[0])
+            self.LSAP.x_agent_array.append(x_match[0])
+            self.LSAP.y_agent_array.append(y_match[0])
+            # self.get_logger().info('\n\n **** DEBUG **** agent history is \n {}'.format(self.LSAP.x_agent_array))
+
 
             # Generate plots
-            self.Lexy.plot_solution(self.counter)
-            self.Lexy.plot_robustness_margins(self.counter_robust)
-            self.Lexy.plot_solution_history(self.counter, self.counter_robust)
-            self.Lexy.plot_solution_robust(self.counter, self.counter_robust)
-            self.Lexy.graph_vis(self.counter, clean = True)
-
+            self.LSAP.plot_solution(self.counter)
+            self.LSAP.plot_solution_history(self.counter, self.counter_robust)
 
             # Re-initialise agent positions
             self.last_all_agents_pose_dict = {}
-
-            self.get_logger().info('\n\n **** DEBUG **** Mu_k is \n {}'.format(self.Lexy.mu_k))
-            self.get_logger().info('\n\n **** DEBUG **** optimass is \n {}'.format(self.Lexy.optimal_ass))
-            # self.get_logger().info('\n\n **** DEBUG **** Akk is \n {}'.format(self.Lexy.a_k))
 
             self.counter += 1
             self.counter_robust += 1
@@ -100,6 +90,7 @@ class Analyser(Node):
 
             current_agent_data = {'agent_{}'.format(current_agent_id) : {'pose_x' : [pose_x], 'pose_y' : [pose_y]}}
             self.current_agent_pose_dict.update(current_agent_data)
+
 
             # Only update agent dictionary once all agent positions have been received
             if len(self.current_agent_pose_dict) == self.agent_dim:

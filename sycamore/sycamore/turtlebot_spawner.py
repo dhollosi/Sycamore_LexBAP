@@ -9,6 +9,8 @@ from rclpy.node import Node
 from ament_index_python.packages import get_package_share_directory
 from gazebo_msgs.srv import SpawnEntity
 import os
+import numpy as np
+import math
 
 
 def main():
@@ -18,6 +20,8 @@ def main():
     node = Node('entity_spawner', allow_undeclared_parameters=True, automatically_declare_parameters_from_overrides=True)
     namespace = node.get_parameter('namespace').value
     position = node.get_parameter('position').value
+    task_position = node.get_parameter('task_position').value
+    true_heading = node.get_parameter('true_heading').value
 
     # connect to service
     node.get_logger().info('Creating Service client to connect to `/spawn_entity`')
@@ -39,6 +43,17 @@ def main():
     request.initial_pose.position.x = position[0]
     request.initial_pose.position.y = position[1]
     request.initial_pose.position.z = position[2]
+
+    if true_heading is False:
+        # Set initial heading opposite to goal's
+        request.initial_pose.orientation.z = math.atan2(-task_position[1] + position[1],
+                                                        -task_position[0] + position[0])
+    elif true_heading is True:
+        # Set initial heading aligned to goal's
+        request.initial_pose.orientation.z = math.atan2(task_position[1] - position[1],
+                                                        task_position[0] - position[0])
+
+
 
     # send request
     node.get_logger().info("Sending service request to `/spawn_entity`")
