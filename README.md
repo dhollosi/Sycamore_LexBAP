@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ChoiRbot [![Documentation Status](https://readthedocs.org/projects/choirbot/badge/?version=latest)](https://choirbot.readthedocs.io/en/latest/?badge=latest)
 [**Website**](https://opt4smart.github.io/ChoiRbot/)
 | [**Reference docs**](https://choirbot.readthedocs.io/en/latest/)
@@ -74,3 +75,6 @@ This result is part of a project that has received funding from the European Res
   <img src="docs/source/_static/logo_ERC.png" width="200" />
   <img src="docs/source/_static/logo_OPT4Smart.png" width="200" /> 
 </p>
+=======
+# Sycamore_LexBAP
+>>>>>>> ff7edb28b9e7b1cb69ece032fdb0bb0c33bb1a1d
