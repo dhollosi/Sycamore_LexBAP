@@ -2,3 +2,10 @@ In this package lie the main additional contributions to the existing ChoiRbot p
 
 For both assignments types (LexBAP and LSAP), the matchings are sorted in ascending order and saved in .pk files in order to generate a correct agent ID for the ROS2 launch files.
 Please note that currently, the agent-task matchings are "foced" by using previously saved files in the "task_sycamore" modules
+
+Instructions :
+
+1) Run ap_generator.py (set use_data to False). This generate .pk files
+2) in parent directory, source the ROS2 directory, and run the command colcon build
+3) run the command source install/setup.bash
+4) run the desired launch file : ros2 launch sycamore lexBAP.launch.py/linSAP.launch.py
