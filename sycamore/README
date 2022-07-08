@@ -3,29 +3,34 @@ In this package lie the main additional contributions to the existing ChoiRbot p
 For both assignments types (LexBAP and LSAP), the matchings are sorted in ascending order and saved in .pk files in order to generate a correct agent ID for the ROS2 launch files.
 Please note that currently, the agent-task matchings are "foced" by using previously saved files in the "task_sycamore" modules.
 
-Further insights as to the code structure and architecture can be found in the "Report and Pres" file. Section 2 of the report aims to detail the contributions brought forward by this project.
+Further insights as to the code structure and architecture can be found in the "Report and Pres" file. Section 2 of the report aims to detail the 
+contributions brought forward by this project.
 
 -- Preliminaries prior to running on ROS2 ---
 
-The main module is the ap_generator.py. This module generates a problem by calling the AssignmentProblem class. From there, two additional classes, LSAP and LexicoBAP, can be used to solve the assignment problem with
-the Linear Sum Assignement Problem (LSAP) or with the Lexicographic Bottleneck Assignment Problem.
+The main module is the ap_generator.py. This module generates a problem by calling the AssignmentProblem class. From there, two additional classes, 
+LSAP and LexicoBAP, can be used to solve the assignment problem with the Linear Sum Assignement Problem (LSAP) or with the Lexicographic Bottleneck Assignment Problem.
 
-In ap_generator.py, the user can decide to store the generated data with the trigger store_data and store_data_ros. Setting them to true stores the agent and task position arrays in the current working directory (CWD) 
-as well as the ROS2 shared install folder. With the switch "use_data", the user can run the ap_generator module with a previously stored assignment problem, and therefore not generate a new one
+In ap_generator.py, the user can decide to store the generated data with the trigger store_data and store_data_ros. Setting them to true stores the 
+agent and task position arrays in the current working directory (CWD)  as well as the ROS2 shared install folder. With the switch "use_data", 
+the user can run the ap_generator module with a previously stored assignment problem, and therefore not generate a new one
 
 
 
 ---- ROS2 preliminaries ----
 
-Two other classes based on the LSAP and LexicoBAP classed were created in order to ensure usability with ROS2 : ChoirBotLexicoBAP and ChoiRbotLSAP. These can be found in 
+Two other classes based on the LSAP and LexicoBAP classed were created in order to ensure usability with ROS2 : ChoirBotLexicoBAP and ChoiRbotLSAP. 
+These can be found in 
 the LexBAP_to_ChoiRbot.py and LSAP_to_ChoiRbot.py modules. Future updates may consider merging the two for code completeness.
 
 The user can decide to proceed with a simulation with either the LSAP or LexicoBAP assignment solutions. 
 
-As detailed in the report, while the ROS2 ChoiRbot simulation runs, the respective class is called and recomputes the assignment at each timestep. In the case of the ChoirBotLexicoBAP class, plots of the assignment, safety margins and robustness margins are generated.
+As detailed in the report, while the ROS2 ChoiRbot simulation runs, the respective class is called and recomputes the assignment at each timestep. In the case of 
+the ChoirBotLexicoBAP class, plots of the assignment, safety margins and robustness margins are generated.
 
 
-Prior to running the launch commands for ROS2, the user is invited to store each of the plots in a desired directory. Please refer to all of the plot_ methods and designate a directory for the plots to be saved.
+Prior to running the launch commands for ROS2, the user is invited to store each of the plots in a desired directory. Please refer 
+to all of the plot_ methods and designate a directory for the plots to be saved.
 
 Currently, this implementation works for the ROS2 foxy version. The build uses colcon with ROS2 (instead of catkin as in ROS).
 
@@ -38,7 +43,8 @@ Currently, this implementation works for the ROS2 foxy version. The build uses c
 
 There should be an example provided. 
 
-Please note that the latest commit of ChoiRbot includes quadrotors, which require additional terms for the pose. This was overidden in order to work with the current implementation of the afore-mentioned code.
+Please note that the latest commit of ChoiRbot includes quadrotors, which require additional terms for the pose. This was 
+overidden in order to work with the current implementation of the afore-mentioned code.
 
 Please do not hesitate to contact me for any further information!
 
