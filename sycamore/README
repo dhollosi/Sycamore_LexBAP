@@ -25,11 +25,9 @@ The user can decide to proceed with a simulation with either the LSAP or LexicoB
 As detailed in the report, while the ROS2 ChoiRbot simulation runs, the respective class is called and recomputes the assignment at each timestep. In the case of the ChoirBotLexicoBAP class, plots of the assignment, safety margins and robustness margins are generated.
 
 
-
-
 Prior to running the launch commands for ROS2, the user is invited to store each of the plots in a desired directory. Please refer to all of the plot_ methods and designate a directory for the plots to be saved.
 
-
+Currently, this implementation works for the ROS2 foxy version. The build uses colcon with ROS2 (instead of catkin as in ROS).
 
 ----- Instructions for ROS2 --------
 
