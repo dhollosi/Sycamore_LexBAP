@@ -13,7 +13,9 @@ LSAP and LexicoBAP, can be used to solve the assignment problem with the Linear 
 
 In ap_generator.py, the user can decide to store the generated data with the trigger store_data and store_data_ros. Setting them to true stores the 
 agent and task position arrays in the current working directory (CWD)  as well as the ROS2 shared install folder. With the switch "use_data", 
-the user can run the ap_generator module with a previously stored assignment problem, and therefore not generate a new one
+the user can run the ap_generator module with a previously stored assignment problem, and therefore not generate a new one.
+
+To generate a new problem, set the "use_data" trigger to False
 
 
 
