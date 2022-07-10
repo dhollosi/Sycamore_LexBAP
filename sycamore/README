@@ -18,6 +18,9 @@ the user can run the ap_generator module with a previously stored assignment pro
 
 To generate a new problem, set the "use_data" trigger to False. An example is currently included, and therefort use_data is set to True. 
 
+Prior to running the simulation, the user may also set the initial heading to be aligned with the tasks or not in the respective launch files (with the 
+trigger true_heading = True/False)
+
 Please see *** Running Instructions *** below for details on how to run the designated example.
 
 ---- ROS2 preliminaries ----
