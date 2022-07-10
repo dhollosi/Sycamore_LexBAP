@@ -59,7 +59,8 @@ Going back to the parent directory (i.e ~/Sycamore_LexBAP_ChoiRbot), run
 7) source install/setup.bash
 8) ros2 launch sycamore lexBAP.launch.py (for lexBAP solution) OR ros2 launch sycamore linSAP.launch.py (for LSAP solution)
 
-This should start Gazebo, and RVIZ. As the simulation runs, the plots are progessively stored in the parent directory.
+This should start Gazebo, and RVIZ. As the simulation runs, the plots are progessively stored in the parent directory. If the user ran the lexBAP command,
+a directory within the parent directory called "LexicoBAP_results" should be created, and contains the different plots. The same is true for the LSAP command.
 
 Please note that the latest commit of ChoiRbot includes quadrotors, which require additional terms for the pose. This was 
 overidden in order to work with the current implementation of the afore-mentioned code.
