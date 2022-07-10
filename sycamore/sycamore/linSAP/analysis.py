@@ -33,7 +33,11 @@ class Analyser(Node):
 
         # self.get_logger().info('\n\n **** DEBUG **** tasks is \n {}'.format(assigned_tasks_lsap))
 
-        self.LSAP = ChoiRbotLSAP(assigned_tasks_lsap, agent_dim=self.agent_dim)
+
+        save_dir = self.init_store_directory()
+
+
+        self.LSAP = ChoiRbotLSAP(assigned_tasks_lsap, save_dir, agent_dim=self.agent_dim)
 
         self.LSAP.task_pos = assigned_tasks_lsap
 
@@ -48,6 +52,32 @@ class Analyser(Node):
             visualization_topic,
             self.robustness_analysis,
             qos)
+
+    def init_store_directory(self):
+
+        path = os.getcwd()
+
+        path_parent = os.path.abspath(os.path.join(path))
+
+
+        directory = 'LSAP_results'
+
+        if not os.path.exists(os.path.join(path_parent, directory)):
+            os.mkdir(os.path.join(path_parent, directory))
+
+        save_dir = os.path.join(path_parent + '/' + directory)
+
+        self.get_logger().info('\n\n *** INITIALISING SAVE DIRECTORY TO : \n {}'.format(save_dir))
+
+
+        if os.path.exists(save_dir + '/Robustness') is False:
+            # If there are no sub directories, create them (stores the different plots)
+            history = '/History'
+            assignments = '/Assignments'
+            os.mkdir(os.path.join(save_dir + assignments))
+            os.mkdir(os.path.join(save_dir + history))
+
+        return save_dir
 
 
     def robustness_analysis(self, msg):

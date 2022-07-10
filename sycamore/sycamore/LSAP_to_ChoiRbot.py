@@ -8,7 +8,7 @@ from scipy.optimize import linear_sum_assignment
 
 class ChoiRbotLSAP:
 
-	def __init__(self, task_data , *, agent_dim = int):
+	def __init__(self, task_data, save_dir , *, agent_dim = int):
 
 		self.agent_dim = agent_dim
 		self.task_dim = len(task_data[0])
@@ -25,6 +25,8 @@ class ChoiRbotLSAP:
 
 		self.lower_bound = -3
 		self.upper_bound = 3
+
+		self.save_dir = save_dir
 
 		self.cost = None
 		self.init_cost = None
@@ -60,7 +62,7 @@ class ChoiRbotLSAP:
 		plt.ylabel("Y-distance [m]")
 		plt.title('Lexicographic BAP')
 
-		save_dir = os.path.join('/home/dimitri/Documents/EPFL/Courses/Sycamore/Analysis/LSAP/Assignments')
+		save_dir = os.path.join( self.save_dir + '/Assignments')
 		my_plot = 'plot_0{}'.format(counter)
 		plt.savefig(os.path.join(save_dir, my_plot))
 
@@ -97,7 +99,7 @@ class ChoiRbotLSAP:
 		plt.ylabel("Y-distance [m]")
 		plt.title('Linear Sum Assignment Problem')
 
-		save_dir = os.path.join('/home/dimitri/Documents/EPFL/Courses/Sycamore/Analysis/LSAP/History')
+		save_dir = os.path.join( self.save_dir + '/History')
 		my_plot = 'plot_0{}'.format(counter)
 		plt.savefig(os.path.join(save_dir, my_plot))
 

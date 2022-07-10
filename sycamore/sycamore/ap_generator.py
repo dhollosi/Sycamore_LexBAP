@@ -30,12 +30,11 @@ upper_bound = 3
 
 
 safety_distance = 0.1  # TODO: Include in future safe sets analysis (currently hardcoded in LexBAP_to_ChoiRbot class)
-use_data = True # Set to False if above dimensions are being changed. Set to True if you wish to re-use previous problem data
+use_data = True  # Set to False if above dimensions are being changed. Set to True if you wish to re-use previous problem data
 store_data = True # Store data in same directory as this module, for fast evaluation
 store_data_ros = True # store the data in the ros package share directory to be used for ChoiRbot. Removes previous problem
 
-use_lexbap = True
-# use_lsap = True
+use_lexbap_lsap = True
 
 
 if __name__ == "__main__":
@@ -48,16 +47,12 @@ if __name__ == "__main__":
 
 	# Load previously stored problem (if it exists)
 	if use_data is True:
-		if use_lexbap is True:
+		if use_lexbap_lsap is True:
 			with open(reassigned_agent_data_lex, 'rb') as fi:
 				Problem.agent_pos_lex = pickle.load(fi)
 			with open(reassigned_task_data_lex, 'rb') as fi:
 				Problem.task_pos_lex = pickle.load(fi)
-		# if use_lsap is True:
-		# 	with open(reassigned_agent_data_lsap, 'rb') as fi:
-		# 		Problem.agent_pos_lex = pickle.load(fi)
-		# 	with open(reassigned_task_data_lsap, 'rb') as fi:
-		# 		Problem.task_pos_lex = pickle.load(fi)
+
 
 	# Make format compatible with ChoiRbot, and order assignment to obtain agent and task ID
 	Problem.make_choirbot_compatible()
@@ -102,24 +97,29 @@ if __name__ == "__main__":
 
 	# Store data locally and/or for ROS launch file
 	if store_data_ros is True:
-		ros2_share_dir = os.path.join('/home/dimitri/ChoirBot/install/sycamore/share/sycamore')
+		# ros2_share_dir = os.path.join('/home/dimitri/ChoirBot/install/sycamore/share/sycamore')
+		path_cwd = os.getcwd()
+		path_parent = os.path.abspath(os.path.join(path_cwd, os.pardir, os.pardir, os.pardir))
+		ros2_share_dir = os.path.join(path_parent + '/install/sycamore/share/sycamore')
+		print('save directory for ROS2 is: ', ros2_share_dir)
 
-		if use_lexbap is True:
+
+		if use_lexbap_lsap is True:
 			#comment out next two lines if first time generating
-			# os.remove(os.path.join(ros2_share_dir, reassigned_agent_data_lex))
-			# os.remove(os.path.join(ros2_share_dir, reassigned_task_data_lex))
+			os.remove(os.path.join(ros2_share_dir, reassigned_agent_data_lex))
+			os.remove(os.path.join(ros2_share_dir, reassigned_task_data_lex))
 			LexBAP.store_data_lex(store_dir = ros2_share_dir)
 			LexBAP.store_data_cb(store_dir = ros2_share_dir)
 
-			# os.remove(os.path.join(ros2_share_dir, reassigned_agent_data_lsap))
-			# os.remove(os.path.join(ros2_share_dir, reassigned_task_data_lsap))
+			os.remove(os.path.join(ros2_share_dir, reassigned_agent_data_lsap))
+			os.remove(os.path.join(ros2_share_dir, reassigned_task_data_lsap))
 			LSAP.store_data_lex(store_dir=ros2_share_dir)
 			LSAP.store_data_cb(store_dir=ros2_share_dir)
 
 	if store_data is True:
 		__location__ = os.path.realpath(
 			os.path.join(os.getcwd(), os.path.dirname(__file__)))
-		if use_lexbap is True:
+		if use_lexbap_lsap is True:
 			LexBAP.store_data_lex(store_dir=__location__)
 			LexBAP.store_data_cb(store_dir=__location__)
 

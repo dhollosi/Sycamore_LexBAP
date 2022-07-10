@@ -10,7 +10,7 @@ import networkx as nx
 
 class ChoirBotLexicoBAP:
 
-	def __init__(self, task_data , *, agent_dim = int):
+	def __init__(self, task_data, save_dir , *, agent_dim = int):
 		''' This class is a modified version of the main Lexico'''
 
 		self.agent_dim = agent_dim
@@ -36,7 +36,7 @@ class ChoirBotLexicoBAP:
 		self.mu_k = None
 		self.mu_k_array = []
 
-
+		self.save_dir = save_dir
 
 		self.min_mu_k = None
 		self.a_k = np.zeros((self.agent_dim,1))
@@ -53,18 +53,19 @@ class ChoirBotLexicoBAP:
 
 
 	def get_at(self, index, timestep):
+		''' Note that the speed still needs to be currently empirically tuned'''
 
 		# self.get_ak()
 
-		if timestep > 3:
-			dist_current_agent = np.sqrt(self.agent_pos[0][index]**2 + self.agent_pos[1][index]**2)
-			dist_previous_agent = np.sqrt(self.x_agent_array[timestep-2][index]**2 + self.y_agent_array[timestep-2][index]**2)
-			speed = dist_current_agent-dist_previous_agent
-		else:
-			speed = 0.05
+		# if timestep > 3:
+		# 	dist_current_agent = np.sqrt(self.agent_pos[0][index]**2 + self.agent_pos[1][index]**2)
+		# 	dist_previous_agent = np.sqrt(self.x_agent_array[timestep-2][index]**2 + self.y_agent_array[timestep-2][index]**2)
+		# 	speed = dist_current_agent-dist_previous_agent
+		# else:
+		# 	speed = 0.05
 		# print('speed is {} for agent {} '.format(speed, index))
 		#0.5 for 8 agents,0.6 for 6 agents, 0.7 for 5
-		speed = 0.073
+		speed = 0.08
 		a_t = abs(speed)*timestep+0.5*(self.min_mu_k - 0.1)
 
 		if a_t < self.a_k[index]:
@@ -145,7 +146,7 @@ class ChoirBotLexicoBAP:
 		plt.ylabel("Y-distance [m]")
 		plt.title('Lexicographic BAP')
 
-		save_dir = os.path.join('/home/dimitri/Documents/EPFL/Courses/Sycamore/Analysis/LexBAP/Assignments')
+		save_dir = os.path.join(self.save_dir +'/Assignments')
 		my_plot = 'plot_0{}'.format(counter)
 		plt.savefig(os.path.join(save_dir, my_plot))
 
@@ -179,7 +180,7 @@ class ChoirBotLexicoBAP:
 		plt.ylabel("Y-distance [m]")
 		plt.title('Lexicographic BAP')
 
-		save_dir = os.path.join('/home/dimitri/Documents/EPFL/Courses/Sycamore/Analysis/LexBAP/Test')
+		save_dir = os.path.join(self.save_dir + '/Safe_set')
 		my_plot = 'plot_0{}'.format(counter)
 		plt.savefig(os.path.join(save_dir, my_plot))
 
@@ -227,7 +228,7 @@ class ChoirBotLexicoBAP:
 		plt.ylabel("Y-distance [m]")
 		plt.title('Lexicographic BAP')
 
-		save_dir = os.path.join('/home/dimitri/Documents/EPFL/Courses/Sycamore/Analysis/LexBAP/History')
+		save_dir = os.path.join(self.save_dir + '/Safe_sets_history')
 		my_plot = 'plot_0{}'.format(counter)
 		plt.savefig(os.path.join(save_dir, my_plot))
 
@@ -252,7 +253,7 @@ class ChoirBotLexicoBAP:
 		plt.ylabel("Robustness margins")
 		plt.title('Lexicographic BAP')
 
-		save_dir = os.path.join('/home/dimitri/Documents/EPFL/Courses/Sycamore/Analysis/LexBAP/Robustness')
+		save_dir = os.path.join(self.save_dir + '/Robustness')
 		my_plot = 'plot_010000{}'.format(counter)
 		plt.savefig(os.path.join(save_dir, my_plot))
 		# plt.show()
@@ -511,7 +512,7 @@ class ChoirBotLexicoBAP:
 
 		plt.tight_layout()
 		plt.title('Lexicographic Bottleneck Assignment')
-		save_dir = os.path.join('/home/dimitri/Documents/EPFL/Courses/Sycamore/Analysis/LexBAP/Graph')
+		save_dir = os.path.join(self.save_dir + '/Graph')
 		my_plot = 'plot_010000{}'.format(counter)
 		plt.savefig(os.path.join(save_dir, my_plot))
 		# plt.show()

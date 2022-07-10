@@ -31,7 +31,9 @@ class Analyser(Node):
         with open(task_table_file, 'rb') as fi:
             assigned_tasks_lexy = pickle.load(fi)
 
-        self.Lexy = ChoirBotLexicoBAP(assigned_tasks_lexy, agent_dim=self.agent_dim)
+        save_dir = self.init_store_directory()
+
+        self.Lexy = ChoirBotLexicoBAP(assigned_tasks_lexy, save_dir, agent_dim=self.agent_dim)
 
         self.Lexy.task_pos = assigned_tasks_lexy
 
@@ -46,6 +48,39 @@ class Analyser(Node):
             visualization_topic,
             self.robustness_analysis,
             qos)
+
+
+    def init_store_directory(self):
+
+        path = os.getcwd()
+
+        path_parent = os.path.abspath(os.path.join(path))
+
+
+        directory = 'LexicoBAP_results'
+
+        if not os.path.exists(os.path.join(path_parent, directory)):
+            os.mkdir(os.path.join(path_parent, directory))
+
+        save_dir = os.path.join(path_parent + '/' + directory)
+
+        self.get_logger().info('\n\n *** INITIALISING SAVE DIRECTORY TO : \n {}'.format(save_dir))
+
+
+        if os.path.exists(save_dir + '/Robustness') is False:
+            # If there are no sub directories, create them (stores the different plots)
+            robustness = '/Robustness'
+            history = '/Assignments'
+            safe_set = '/Safe_set'
+            safe_set_history = '/Safe_sets_history'
+            graph_view = '/Graph'
+            os.mkdir(os.path.join(save_dir + robustness))
+            os.mkdir(os.path.join(save_dir + history))
+            os.mkdir(os.path.join(save_dir + safe_set))
+            os.mkdir(os.path.join(save_dir + safe_set_history))
+            os.mkdir(os.path.join(save_dir + graph_view))
+
+        return save_dir
 
 
     def robustness_analysis(self, msg):
