@@ -9,7 +9,7 @@ def main():
     # initialize task guidance
     opt_settings = {'max_iterations': 20}
     executor = PositionTaskExecutor()
-    optimizer = TaskOptimizer(resolution_strategy='lexbap', cost_function= 'euclidean',
+    optimizer = TaskOptimizer(resolution_strategy='simplex', cost_function= 'euclidean',
                               settings=opt_settings)
     
     guidance = TaskGuidance(optimizer, executor, None, 'pubsub', 'odom')
