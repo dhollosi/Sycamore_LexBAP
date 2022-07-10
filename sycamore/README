@@ -1,6 +1,7 @@
 In this package lie the main additional contributions to the existing ChoiRbot package. 
 
-For both assignments types (LexBAP and LSAP), the matchings are sorted in ascending order and saved in .pk files in order to generate a correct agent ID for the ROS2 launch files.
+For both assignments types (LexBAP and LSAP), the matchings are sorted in ascending order and saved in pickle format (.pk) files in order to generate a 
+correct agent ID for the ROS2 launch files.
 Please note that currently, the agent-task matchings are "foced" by using previously saved files in the "task_sycamore" modules.
 
 Further insights as to the code structure and architecture can be found in the "Report and Pres" file. Section 2 of the report aims to detail the 
@@ -15,35 +16,50 @@ In ap_generator.py, the user can decide to store the generated data with the tri
 agent and task position arrays in the current working directory (CWD)  as well as the ROS2 shared install folder. With the switch "use_data", 
 the user can run the ap_generator module with a previously stored assignment problem, and therefore not generate a new one.
 
-To generate a new problem, set the "use_data" trigger to False
+To generate a new problem, set the "use_data" trigger to False. An example is currently included, and therefort use_data is set to True. 
 
-
+Please see *** Running Instructions *** below for details on how to run the designated example.
 
 ---- ROS2 preliminaries ----
 
 Two other classes based on the LSAP and LexicoBAP classed were created in order to ensure usability with ROS2 : ChoirBotLexicoBAP and ChoiRbotLSAP. 
-These can be found in 
-the LexBAP_to_ChoiRbot.py and LSAP_to_ChoiRbot.py modules. Future updates may consider merging the two for code completeness.
+These can be found in the LexBAP_to_ChoiRbot.py and LSAP_to_ChoiRbot.py modules. Future updates may consider merging the two for code completeness.
 
 The user can decide to proceed with a simulation with either the LSAP or LexicoBAP assignment solutions. 
 
 As detailed in the report, while the ROS2 ChoiRbot simulation runs, the respective class is called and recomputes the assignment at each timestep. In the case of 
 the ChoirBotLexicoBAP class, plots of the assignment, safety margins and robustness margins are generated.
 
-
-Prior to running the launch commands for ROS2, the user is invited to store each of the plots in a desired directory. Please refer 
-to all of the plot_ methods and designate a directory for the plots to be saved.
-
 Currently, this implementation works for the ROS2 foxy version. The build uses colcon with ROS2 (instead of catkin as in ROS).
 
------ Instructions for ROS2 --------
+----- *** Running Instructions **** --------
 
-1) Run ap_generator.py (set use_data to False). This generate .pk files
-2) in parent directory, source the ROS2 directory, and run the command colcon build
-3) run the command source install/setup.bash
-4) run the desired launch file : ros2 launch sycamore lexBAP.launch.py/linSAP.launch.py
+Firstly, create a directory in which this repository should be cloned into.
 
-There should be an example provided. 
+Example (from command line)
+
+1) mkdir Sycamore_LexBAP
+2) git clone https://github.com/dhollosi/Sycamore_LexBAP.git
+
+Then, the user must firtly source the ros directory from the newly created parent directory, i.e
+3) source /opt/ros/foxy/setup.bash
+
+and then build the package in order to create the common shared files : "build", "install" and "log" which are standardised with ROS2:
+4) colcon build
+
+From this point, the user may either decide to launch the implemented example or create a new one (with the use_data trigger explained above).
+For the current example, run 
+5) cd Sycamore_LexBAP/sycamore/sycamore/
+6) python3 ap_generator.py
+
+A plot is now prompted showing the example with both the LexBAP and LSAP solutions. Closing them currently stores the problem in the shared "Install" 
+directory for ROS2, and consequently allows the simulations to be launch,
+
+Going back to the parent directory, run
+7) source install/setup.bash
+8) ros2 launch sycamore lexBAP.launch.py (for lexBAP solution) OR ros2 launch sycamore linSAP.launch.py (for LSAP solution)
+
+This should start Gazebo, and RVIZ. As the simulation runs, the plots are progessively stored in the parent directory.
 
 Please note that the latest commit of ChoiRbot includes quadrotors, which require additional terms for the pose. This was 
 overidden in order to work with the current implementation of the afore-mentioned code.
@@ -58,3 +74,5 @@ This package contains a few nested dependencies which are required for full func
 - networkx
 - descartes
 - shapely
+
+The user may install them through python3 pip
