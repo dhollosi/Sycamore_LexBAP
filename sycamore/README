@@ -16,7 +16,8 @@ In ap_generator.py, the user can decide to store the generated data with the tri
 agent and task position arrays in the current working directory (CWD)  as well as the ROS2 shared install folder. With the switch "use_data", 
 the user can run the ap_generator module with a previously stored assignment problem, and therefore not generate a new one.
 
-To generate a new problem, set the "use_data" trigger to False. An example is currently included, and therefort use_data is set to True. 
+To generate a new problem, set the "use_data" trigger to False. An example is currently included, and therefore use_data is set to True. If it is desired to
+generate a new problem, please uncomment lines 109, 110, 114 and 115 of ap_generator.py. 
 
 Prior to running the simulation, the user may also set the initial heading to be aligned with the tasks or not in the respective launch files (with the 
 trigger true_heading = True/False)
@@ -25,7 +26,7 @@ Please see *** Running Instructions *** below for details on how to run the desi
 
 ---- ROS2 preliminaries ----
 
-Two other classes based on the LSAP and LexicoBAP classed were created in order to ensure usability with ROS2 : ChoirBotLexicoBAP and ChoiRbotLSAP. 
+Two other classes based on the LSAP and LexicoBAP classed were created in order to ensure usability with ROS2 and ChoiRbot : ChoirBotLexicoBAP and ChoiRbotLSAP. 
 These can be found in the LexBAP_to_ChoiRbot.py and LSAP_to_ChoiRbot.py modules. Future updates may consider merging the two for code completeness.
 
 The user can decide to proceed with a simulation with either the LSAP or LexicoBAP assignment solutions. 
