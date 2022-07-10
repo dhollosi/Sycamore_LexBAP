@@ -70,7 +70,7 @@ class Analyser(Node):
         self.get_logger().info('\n\n *** INITIALISING SAVE DIRECTORY TO : \n {}'.format(save_dir))
 
 
-        if os.path.exists(save_dir + '/Robustness') is False:
+        if os.path.exists(save_dir + '/History') is False:
             # If there are no sub directories, create them (stores the different plots)
             history = '/History'
             assignments = '/Assignments'
