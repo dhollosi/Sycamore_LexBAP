@@ -45,7 +45,7 @@ Then, the user must firtly source the ros directory from the newly created paren
 3) source /opt/ros/foxy/setup.bash
 
 and then build the package in order to create the common shared files : "build", "install" and "log" which are standardised with ROS2:
-4) colcon build
+4) colcon build --symlink-install && source ~/.bashrc
 
 From this point, the user may either decide to launch the implemented example or create a new one (with the use_data trigger explained above).
 For the current example, run 
