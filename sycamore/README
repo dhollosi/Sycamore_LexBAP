@@ -38,7 +38,7 @@ Firstly, create a directory in which this repository should be cloned into.
 
 Example (from command line)
 
-1) mkdir Sycamore_LexBAP
+1) mkdir Sycamore_LexBAP_ChoiRbot
 2) git clone https://github.com/dhollosi/Sycamore_LexBAP.git
 
 Then, the user must firtly source the ros directory from the newly created parent directory, i.e
@@ -55,7 +55,7 @@ For the current example, run
 A plot is now prompted showing the example with both the LexBAP and LSAP solutions. Closing them currently stores the problem in the shared "Install" 
 directory for ROS2, and consequently allows the simulations to be launch,
 
-Going back to the parent directory, run
+Going back to the parent directory (i.e ~/Sycamore_LexBAP_ChoiRbot), run
 7) source install/setup.bash
 8) ros2 launch sycamore lexBAP.launch.py (for lexBAP solution) OR ros2 launch sycamore linSAP.launch.py (for LSAP solution)
 
