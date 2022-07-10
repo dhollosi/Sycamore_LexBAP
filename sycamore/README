@@ -44,7 +44,7 @@ Example (from command line)
 1) mkdir Sycamore_LexBAP_ChoiRbot
 2) git clone https://github.com/dhollosi/Sycamore_LexBAP.git
 
-Then, the user must firtly source the ros directory from the newly created parent directory, i.e
+Then, the user must firstly source the ros directory from the newly created parent directory, i.e
 3) source /opt/ros/foxy/setup.bash
 
 and then build the package in order to create the common shared files : "build", "install" and "log" which are standardised with ROS2:
