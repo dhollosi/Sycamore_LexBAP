@@ -55,8 +55,8 @@ For the current example, run
 5) cd Sycamore_LexBAP/sycamore/sycamore/
 6) python3 ap_generator.py
 
-A plot is now prompted showing the example with both the LexBAP and LSAP solutions. Closing them currently stores the problem in the shared "Install" 
-directory for ROS2, and consequently allows the simulations to be launch,
+A plot is now prompted showing the example with both the LexBAP and LSAP solutions. Closing them currently stores the problem in the shared "install" 
+directory for ROS2, and consequently allows the simulations to be launched,
 
 Going back to the parent directory (i.e ~/Sycamore_LexBAP_ChoiRbot), run
 7) source install/setup.bash
