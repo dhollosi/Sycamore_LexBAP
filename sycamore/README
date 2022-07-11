@@ -1,5 +1,10 @@
 In this package lie the main additional contributions to the existing ChoiRbot package. 
 
+**********************************************
+*** REQUIRED DEPENDENCIES PRIOR TO RUNNING ***
+Please send the end of this README for required dependecies to use this package
+*********************************************
+
 For both assignments types (LexBAP and LSAP), the matchings are sorted in ascending order and saved in pickle format (.pk) files in order to generate a 
 correct agent ID for the ROS2 launch files.
 Please note that currently, the agent-task matchings are "foced" by using previously saved files in the "task_sycamore" modules.
@@ -7,7 +12,11 @@ Please note that currently, the agent-task matchings are "foced" by using previo
 Further insights as to the code structure and architecture can be found in the "Report and Pres" file. Section 2 of the report aims to detail the 
 contributions brought forward by this project.
 
+********************************************************
+
 -- Preliminaries prior to running on ROS2 ---
+
+********************************************************
 
 The main module is the ap_generator.py. This module generates a problem by calling the AssignmentProblem class. From there, two additional classes, 
 LSAP and LexicoBAP, can be used to solve the assignment problem with the Linear Sum Assignement Problem (LSAP) or with the Lexicographic Bottleneck Assignment Problem.
@@ -24,7 +33,11 @@ trigger true_heading = True/False)
 
 Please see *** Running Instructions *** below for details on how to run the designated example.
 
+****************************
+
 ---- ROS2 preliminaries ----
+
+****************************
 
 Two other classes based on the LSAP and LexicoBAP classed were created in order to ensure usability with ROS2 and ChoiRbot : ChoirBotLexicoBAP and ChoiRbotLSAP. 
 These can be found in the LexBAP_to_ChoiRbot.py and LSAP_to_ChoiRbot.py modules. Future updates may consider merging the two for code completeness.
@@ -36,7 +49,13 @@ the ChoirBotLexicoBAP class, plots of the assignment, safety margins and robustn
 
 Currently, this implementation works for the ROS2 foxy version. The build uses colcon with ROS2 (instead of catkin as in ROS).
 
+********************************************************
+
 ----- *** Running Instructions **** --------
+
+********************************************************
+
+Once the dependencies have been installed and this package had been successfuly cloned, only steps 3-8 are  necessary
 
 Firstly, create a directory in which this repository should be cloned into.
 
@@ -46,7 +65,7 @@ Example (from command line)
 2) git clone https://github.com/dhollosi/Sycamore_LexBAP.git
 
 Then, the user must firstly source the ros directory from the newly created parent directory, i.e
-3) source /opt/ros/foxy/setup.bash
+3) source /opt/ros/foxy/setup.bash 
 
 and then build the package in order to create the common shared files : "build", "install" and "log" which are standardised with ROS2:
 4) colcon build --symlink-install && source ~/.bashrc
@@ -71,6 +90,11 @@ overidden in order to work with the current implementation of the afore-mentione
 
 Please do not hesitate to contact me for any further information!
 
+********************************************************
+
+ ------------ DEPENDENCIES & INSTRUCTIONS --------------
+ 
+ ********************************************************
 
 NOTE:
 
@@ -81,3 +105,37 @@ This package contains a few nested dependencies which are required for full func
 - shapely
 
 The user may install them through python3 pip
+
+Regarding the ROS2 dependencies, the user is invited to check the ChoiRbot README (in the above directory) for instructions.
+
+In short, it is required to have the turtlebot3 burger gazebo model before running this package (prior to *** Running Instructions ***)
+
+To do this, please follow the installation instructions specified here for the turtlebot3 package (for FOXY) :
+https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/ 
+
+Then, please follow the instructions to install the simulation package for turtlebot3 here : https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/
+
+Finally, open up a new terminal command (CTR + ALT + T), and add the following lines to the end of the ~/.bashrc file:
+
+export TURTLEBOT3_MODEL=burger
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/turtlebot3_ws/src/turtlebot3_simulations/turtlebot3_gazebo/models
+export ROS_DOMAIN_ID=30 #TURTLEBOT3
+
+NOTE: This will only work if the instructions for the simulation package were followed exactly as stated in section 1.1.1. Otherwise, the user must change 
+the path to the one created. 
+
+**** BONUS ****
+
+Some useful commands I've come to use regularly from the .bashrc source file are appended here (for user friendliness) 
+
+alias soros='source /opt/ros/foxy/setup.bash'
+alias nb='nano ~/.bashrc'
+alias sb='source ~/.bashrc'
+alias gs='git status'
+alias gp='git pull'
+alias cw='cd ~/colcon_ws'
+alias cs='cd ~/colcon_ws/src'
+alias cb='colcon build --symlink-install && source ~/.bashrc'
+
+You can add these to your liking and/or convenience! 
+
