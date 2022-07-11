@@ -65,7 +65,7 @@ class ChoirBotLexicoBAP:
 		# 	speed = 0.05
 		# print('speed is {} for agent {} '.format(speed, index))
 		#0.5 for 8 agents,0.6 for 6 agents, 0.7 for 5
-		speed = 0.08
+		speed = 0.07
 		a_t = abs(speed)*timestep+0.5*(self.min_mu_k - 0.1)
 
 		if a_t < self.a_k[index]:
